@@ -889,7 +889,7 @@ func (svg *SVG) AnimateSkewY(link string, from, to, duration float64, repeat int
 // Utility
 
 // Grid draws a grid at the specified coordinate, dimensions, and spacing, with optional style.
-func (svg *SVG) Grid(x int, y int, w int, h int, n int, s ...string) {
+func (svg *SVG) Grid(x float64, y float64, w float64, h float64, n float64, s ...string) {
 
 	if len(s) > 0 {
 		svg.Gstyle(s[0])
