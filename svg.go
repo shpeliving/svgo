@@ -354,9 +354,9 @@ func (svg *SVG) Path(d string, s ...string) {
 // if large is true, the arc sweep angle is greater than or equal to 180 degrees,
 // otherwise the arc sweep is less than 180 degrees
 // http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
-func (svg *SVG) Arc(sx int, sy int, ax int, ay int, r int, large bool, sweep bool, ex int, ey int, s ...string) {
+func (svg *SVG) Arc(sx float64, sy float64, ax float64, ay float64, r float64, large bool, sweep bool, ex float64, ey float64, s ...string) {
 	svg.printf(`%s A%s %d %s %s %s" %s`,
-		ptag(sx, sy), coord(ax, ay), r, onezero(large), onezero(sweep), coord(ex, ey), endstyle(s, emptyclose))
+		ptagf(sx, sy), coordFloat(ax, ay), r, onezero(large), onezero(sweep), coordFloat(ex, ey), endstyle(s, emptyclose))
 }
 
 // Bezier draws a cubic bezier curve, with optional style, beginning at sx,sy, ending at ex,ey
@@ -1039,6 +1039,9 @@ func coordFloat(x float64, y float64) string {
 
 // ptag returns the beginning of the path element
 func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
+
+// ptagf returns the beginning of the path element with floats
+func ptagf(x float64, y float64) string { return fmt.Sprintf(`<path d="M%s`, coordFloat(x, y)) }
 
 // loc returns the x and y coordinate attributes
 func loc(x int, y int) string { return fmt.Sprintf(`x="%d" y="%d"`, x, y) }
