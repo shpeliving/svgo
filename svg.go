@@ -26,6 +26,7 @@ package svg
 import (
 	"fmt"
 	"io"
+	"math"
 
 	"encoding/xml"
 	"strings"
@@ -310,7 +311,7 @@ func (svg *SVG) Ellipse(x int, y int, w int, h int, s ...string) {
 
 // Polygon draws a series of line segments using an array of x, y coordinates, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#PolygonElement
-func (svg *SVG) Polygon(x []int, y []int, s ...string) {
+func (svg *SVG) Polygon(x []float64, y []float64, s ...string) {
 	svg.poly(x, y, "polygon", s...)
 }
 
@@ -392,7 +393,7 @@ func (svg *SVG) Line(x1 int, y1 int, x2 int, y2 int, s ...string) {
 
 // Polyline draws connected lines between coordinates, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#PolylineElement
-func (svg *SVG) Polyline(x []int, y []int, s ...string) {
+func (svg *SVG) Polyline(x []float64, y []float64, s ...string) {
 	svg.poly(x, y, "polyline", s...)
 }
 
@@ -936,7 +937,7 @@ func style(s string) string {
 }
 
 // pp returns a series of polygon points
-func (svg *SVG) pp(x []int, y []int, tag string) {
+func (svg *SVG) pp(x []float64, y []float64, tag string) {
 	svg.print(tag)
 	if len(x) != len(y) {
 		svg.print(" ")
@@ -944,9 +945,9 @@ func (svg *SVG) pp(x []int, y []int, tag string) {
 	}
 	lx := len(x) - 1
 	for i := 0; i < lx; i++ {
-		svg.print(coord(x[i], y[i]) + " ")
+		svg.print(coordFloat(x[i], y[i]) + " ")
 	}
-	svg.print(coord(x[lx], y[lx]))
+	svg.print(coordFloat(x[lx], y[lx]))
 }
 
 // endstyle modifies an SVG object, with either a series of name="value" pairs,
@@ -975,7 +976,7 @@ func (svg *SVG) tt(tag string, s string) {
 }
 
 // poly compiles the polygon element
-func (svg *SVG) poly(x []int, y []int, tag string, s ...string) {
+func (svg *SVG) poly(x []float64, y []float64, tag string, s ...string) {
 	svg.pp(x, y, "<"+tag+" points=\"")
 	svg.print(`" ` + endstyle(s, "/>\n"))
 }
@@ -1025,6 +1026,16 @@ func translate(x, y int) string { return fmt.Sprintf(`translate(%d,%d)`, x, y) }
 
 // coord returns a coordinate string
 func coord(x int, y int) string { return fmt.Sprintf(`%d,%d`, x, y) }
+
+func roundFloatToPrecision(val float64, precision int) float64 {
+	powPrecision := math.Pow10(precision)
+	return math.RoundToEven(val*powPrecision) / powPrecision
+}
+
+// coordFloat returns a coordinate string
+func coordFloat(x float64, y float64) string {
+	return fmt.Sprintf(`%d,%d`, roundFloatToPrecision(x, 4), roundFloatToPrecision(y, 4))
+}
 
 // ptag returns the beginning of the path element
 func ptag(x int, y int) string { return fmt.Sprintf(`<path d="M%s`, coord(x, y)) }
