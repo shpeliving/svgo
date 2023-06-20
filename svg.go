@@ -298,14 +298,14 @@ func (svg *SVG) MaskEnd() { svg.println(`</mask>`) }
 
 // Circle centered at x,y, with radius r, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#CircleElement
-func (svg *SVG) Circle(x int, y int, r int, s ...string) {
-	svg.printf(`<circle cx="%d" cy="%d" r="%d" %s`, x, y, r, endstyle(s, emptyclose))
+func (svg *SVG) Circle(x float64, y float64, r float64, s ...string) {
+	svg.printf(`<circle cx="%0.4f" cy="%0.4f" r="%0.4f" %s`, x, y, r, endstyle(s, emptyclose))
 }
 
 // Ellipse centered at x,y, centered at x,y with radii w, and h, with optional style.
 // Standard Reference: http://www.w3.org/TR/SVG11/shapes.html#EllipseElement
-func (svg *SVG) Ellipse(x int, y int, w int, h int, s ...string) {
-	svg.printf(`<ellipse cx="%d" cy="%d" rx="%d" ry="%d" %s`,
+func (svg *SVG) Ellipse(x float64, y float64, w float64, h float64, s ...string) {
+	svg.printf(`<ellipse cx="%0.4f" cy="%0.4f" rx="%0.4f" ry="%0.4f" %s`,
 		x, y, w, h, endstyle(s, emptyclose))
 }
 
