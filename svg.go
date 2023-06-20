@@ -355,7 +355,7 @@ func (svg *SVG) Path(d string, s ...string) {
 // otherwise the arc sweep is less than 180 degrees
 // http://www.w3.org/TR/SVG11/paths.html#PathDataEllipticalArcCommands
 func (svg *SVG) Arc(sx float64, sy float64, ax float64, ay float64, r float64, large bool, sweep bool, ex float64, ey float64, s ...string) {
-	svg.printf(`%s A%s %d %s %s %s" %s`,
+	svg.printf(`%s A%s %0.4f %s %s %s" %s`,
 		ptagf(sx, sy), coordFloat(ax, ay), r, onezero(large), onezero(sweep), coordFloat(ex, ey), endstyle(s, emptyclose))
 }
 
