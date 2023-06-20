@@ -1034,7 +1034,7 @@ func roundFloatToPrecision(val float64, precision int) float64 {
 
 // coordFloat returns a coordinate string
 func coordFloat(x float64, y float64) string {
-	return fmt.Sprintf(`%d,%d`, roundFloatToPrecision(x, 4), roundFloatToPrecision(y, 4))
+	return fmt.Sprintf(`%0.4f,%0.4f`, roundFloatToPrecision(x, 4), roundFloatToPrecision(y, 4))
 }
 
 // ptag returns the beginning of the path element
