@@ -1,4 +1,4 @@
-module github.com/ajstarks/svgo
+module github.com/shpeliving/svgo
 
 go 1.15
 
